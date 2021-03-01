@@ -19,6 +19,20 @@ function filterByTitle(query, notesArray) {
     return filteredResults;
 }
 
+function findById(id, notesArray) {
+    const result = notesArray.filter(note => note.id === id)[0];
+    return result;
+  }
+
+
+//function createNewNote(body, notesArray) {
+   // console.log(body);
+    // our function's main code will go here!
+  
+    // return finished code to post route for response
+    //return body;
+  //}
+
 app.get('/api/notes', (req, res) => {
     let results = database;
     if (req.query){
@@ -27,11 +41,16 @@ app.get('/api/notes', (req, res) => {
     res.json(results);
   });
 
-app.post('/api/notes', (req, res)=>{
+  app.get('/api/notes/:id', (req, res) => {
+        const result = findById(req.params.id, database);
+      res.json(result);
+  });
+
+//app.post('/api/notes', (req, res)=>{
     // req.body is where our incoming content will be
-  console.log(req.body);
-  res.json(req.body);
-})
+  //console.log(req.body);
+ // res.json(req.body);
+//})
 
 app.listen(3001, () => {
     console.log(`API server now on port 3001!`);

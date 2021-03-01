@@ -2,11 +2,13 @@
     "database":[
     {
         "title":"Test",
-        "text":"Test text"
+        "text":"Test text",
+        "id":"1"
     },
     {
         "title":"First",
-        "text":"This is just to make sure my code is working"
+        "text":"This is just to make sure my code is working",
+        "id":"2"
     }
     ]
 }
