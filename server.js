@@ -25,13 +25,25 @@ function findById(id, notesArray) {
   }
 
 
-//function createNewNote(body, notesArray) {
-   // console.log(body);
-    // our function's main code will go here!
-  
-    // return finished code to post route for response
-    //return body;
-  //}
+function createNewNote(body, notesArray) {
+    const database = body;
+    notesArray.push(database);
+    fs.writeFileSync(
+        path.join(__dirname, './Develop/db/db.json'),
+        JSON.stringify({ database: notesArray }, null, 2)
+      );
+    return database;
+  }
+
+  function validateNewNote(newnote) {
+    if (!newnote.title || typeof newnote.title !== 'string') {
+      return false;
+    }
+    if (!newnote.text || typeof newnote.text !== 'string') {
+      return false;
+    }
+    return true;
+  }
 
 app.get('/api/notes', (req, res) => {
     let results = database;
@@ -43,14 +55,26 @@ app.get('/api/notes', (req, res) => {
 
   app.get('/api/notes/:id', (req, res) => {
         const result = findById(req.params.id, database);
-      res.json(result);
+        if (result) {
+            res.json(result);
+          } else {
+            res.send(404);
+          }
   });
 
-//app.post('/api/notes', (req, res)=>{
-    // req.body is where our incoming content will be
-  //console.log(req.body);
- // res.json(req.body);
-//})
+app.post('/api/notes', (req, res)=>{
+    // set id based on what the next index of the array will be
+  req.body.id = database.length.toString();
+  // if any data in req.body is incorrect, send 400 error back
+  if (!validateNewNote(req.body)) {
+    res.status(400).send('The note is not properly formatted.');
+  } else {
+  // add note to json file and database array in this function
+  const newnote = createNewNote(req.body, database);
+
+  res.json(newnote);
+  }
+});
 
 app.listen(3001, () => {
     console.log(`API server now on port 3001!`);

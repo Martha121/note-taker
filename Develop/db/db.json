@@ -1,14 +1,19 @@
 {
-    "database":[
+  "database": [
     {
-        "title":"Test",
-        "text":"Test text",
-        "id":"1"
+      "title": "Test",
+      "text": "Test text",
+      "id": "0"
     },
     {
-        "title":"First",
-        "text":"This is just to make sure my code is working",
-        "id":"2"
+      "title": "First",
+      "text": "This is just to make sure my code is working",
+      "id": "1"
+    },
+    {
+      "title": "second",
+      "text": "working on sending data to a server",
+      "id": "2"
     }
-    ]
+  ]
 }
