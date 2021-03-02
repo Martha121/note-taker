@@ -1,7 +1,9 @@
 const express = require('express');
 const fs = require("fs");
 const path = require("path");
+const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(express.static('public'));
 
 // We need to use middleware functions everytime we create a server that's looking to accept POST data
 // parse incoming string or array data
@@ -76,6 +78,16 @@ app.post('/api/notes', (req, res)=>{
   }
 });
 
-app.listen(3001, () => {
-    console.log(`API server now on port 3001!`);
+// route to get index.html to be served from Express.js server
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'));
+  });
+
+app.get('/notes', (req, res) => {
+res.sendFile(path.join(__dirname, './Develop/public/notes.html'));
+});
+
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
   });
