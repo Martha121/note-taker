@@ -24,7 +24,6 @@ This aplication lets you save and delete notes by clicking on the correct icons.
   
 
 ## Questions
-  Link to my GitHub profile: https://github.com/Martha121 <br/>
   If you have questions please contactme me at: marthagamez211@gmail.com
 
   
