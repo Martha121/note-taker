@@ -61,6 +61,9 @@ const renderActiveNote = () => {
   } else {
     noteTitle.value = '';
     noteText.value = '';
+    show(saveNoteBtn);
+    noteTitle.removeAttribute('readonly');
+    noteText.removeAttribute('readonly');
   }
 };
 
@@ -77,7 +80,8 @@ const handleNoteSave = () => {
 
 // Delete the clicked note
 const handleNoteDelete = (e) => {
-  // prevents the click listener for the list from being called when the button inside of it is clicked
+  // prevents the click listener for the list from being called when the button inside of it 
+  //is clicked
   e.stopPropagation();
 
   const note = e.target;

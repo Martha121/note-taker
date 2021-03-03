@@ -1,3 +1,4 @@
+const { Console } = require('console');
 const express = require('express');
 const fs = require("fs");
 const path = require("path");
@@ -24,7 +25,7 @@ function filterByTitle(query, notesArray) {
 function findById(id, notesArray) {
     const result = notesArray.filter(note => note.id === id)[0];
     return result;
-  }
+}
 
 
 function createNewNote(body, notesArray) {
@@ -35,9 +36,24 @@ function createNewNote(body, notesArray) {
         JSON.stringify({ database: notesArray }, null, 2)
       );
     return database;
-  }
+}
 
-  function validateNewNote(newnote) {
+function deleteNote(id){
+  let notesArray = database;
+
+  for(var i=0; i<notesArray.length; i++){
+    if(notesArray[i].id == id){
+      notesArray.splice(i,1);
+    }
+  }
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify({ database: notesArray }, null, 2)
+  );
+  return database;
+}
+
+function validateNewNote(newnote) {
     if (!newnote.title || typeof newnote.title !== 'string') {
       return false;
     }
@@ -55,17 +71,27 @@ app.get('/api/notes', (req, res) => {
     res.json(results);
   });
 
-  app.get('/api/notes/:id', (req, res) => {
-        const result = findById(req.params.id, database);
-        if (result) {
-            res.json(result);
-          } else {
-            res.send(404);
-          }
-  });
+app.get('/api/notes/:id', (req, res) => {
+      const result = findById(req.params.id, database);
+      if (result) {
+          res.json(result);
+        } else {
+          res.send(404);
+        }
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+  const result = deleteNote(req.params.id);
+  if (result) {
+      res.json(result);
+    } else {
+      res.send(404);
+    }
+});
 
 app.post('/api/notes', (req, res)=>{
     // set id based on what the next index of the array will be
+  
   req.body.id = database.length.toString();
   // if any data in req.body is incorrect, send 400 error back
   if (!validateNewNote(req.body)) {
